@@ -31,7 +31,7 @@ class MessageBundle {
     getMessages() {
         return this.messages;
     }
-    write(write, digest, xmlMessagesById, createMapper, filterSources) {
+    write(write, digest, xmlMessagesById, createMapper, filterSources, cleanNotes = false) {
         const messages = {};
         const existingMessages = xmlMessagesById ? Object.keys(xmlMessagesById) : [];
         // Deduplicate messages based on their ID
@@ -44,6 +44,11 @@ class MessageBundle {
                 }
                 else {
                     messages[id].sources.push(...message.sources);
+                }
+                if (cleanNotes) {
+                    messages[id].meaning = '';
+                    messages[id].description = '';
+                    messages[id].sources = [];
                 }
             }
         });
@@ -58,7 +63,7 @@ class MessageBundle {
             }
             return transformedMessage;
         });
-        return write(msgList, this.locale, existingMessages.map(id => xmlMessagesById[id]));
+        return write(msgList, this.locale, existingMessages.map(id => xmlMessagesById[id]), cleanNotes);
     }
 }
 exports.MessageBundle = MessageBundle;

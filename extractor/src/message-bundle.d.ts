@@ -9,5 +9,5 @@ export declare class MessageBundle {
     constructor(locale?: string | null);
     updateFromTemplate(template: string | I18nDef, url: string): i18n.Message[];
     getMessages(): i18n.Message[];
-    write(write: (messages: i18n.Message[], locale: string | null, existingNodes?: Node[]) => string, digest: (message: i18n.Message) => string, xmlMessagesById?: XmlMessagesById, createMapper?: (messages: i18n.Message) => PlaceholderMapper, filterSources?: (path: string) => string): string;
+    write(write: (messages: i18n.Message[], locale: string | null, existingNodes?: Node[], cleanNotes?: boolean) => string, digest: (message: i18n.Message) => string, xmlMessagesById?: XmlMessagesById, createMapper?: (messages: i18n.Message) => PlaceholderMapper, filterSources?: (path: string) => string, cleanNotes?: boolean): string;
 }

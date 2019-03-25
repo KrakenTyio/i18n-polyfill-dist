@@ -196,14 +196,7 @@ function getFileContent(messages, sourcePath, format, locale = "en", cleanNotes 
     Object.keys(messages).forEach(url => {
         messages[url].forEach(entry => messageBundle.updateFromTemplate(entry, url));
     });
-    if (cleanNotes) {
-        messageBundle.messages.forEach((message) => {
-            message.meaning = '';
-            message.description = '';
-            message.sources = [];
-        });
-    }
-    return messageBundle.write(writeFct, digest, xmlMessagesById, createMapper);
+    return messageBundle.write(writeFct, digest, xmlMessagesById, createMapper, undefined, cleanNotes);
 }
 exports.getFileContent = getFileContent;
 //# sourceMappingURL=extractor.js.map

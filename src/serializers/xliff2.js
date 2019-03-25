@@ -57,7 +57,7 @@ function xliff2LoadToXml(content) {
     return xmlMessagesById;
 }
 exports.xliff2LoadToXml = xliff2LoadToXml;
-function xliff2Write(messages, locale, existingNodes) {
+function xliff2Write(messages, locale, existingNodes, cleanNotes) {
     const visitor = new WriteVisitor();
     const units = existingNodes && existingNodes.length ? [new xml.CR(4), ...existingNodes] : [];
     messages.forEach(message => {
@@ -83,6 +83,17 @@ function xliff2Write(messages, locale, existingNodes) {
         unit.children.push(new xml.CR(6), segment, new xml.CR(4));
         units.push(new xml.CR(4), unit);
     });
+    if (cleanNotes) {
+        units.forEach((unit) => {
+            const element = unit;
+            if (element.children) {
+                const notes = element.children.find((item) => 'name' in item && item['name'] === _NOTES_TAG);
+                if (notes) {
+                    element.children.splice(element.children.indexOf(notes), 1);
+                }
+            }
+        });
+    }
     const file = new xml.Tag(_FILE_TAG, { original: "ng.template", id: "ngi18n" }, [...units, new xml.CR(2)]);
     const xliff = new xml.Tag(_XLIFF_TAG, { version: _VERSION, xmlns: _XMLNS, srcLang: locale || _DEFAULT_SOURCE_LANG }, [
         new xml.CR(2),
