@@ -1,0 +1,43 @@
+{
+  "name": "@ngx-translate/i18n-polyfill",
+  "version": "1.0.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngx-translate/i18n-polyfill"
+  },
+  "author": {
+    "name": "Olivier Combe",
+    "email": "olivier.combe@gmail.com"
+  },
+  "keywords": [
+    "angular",
+    "i18n"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngx-translate/i18n-polyfill/issues"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=6.0.0",
+    "@angular/common": ">=6.0.0"
+  },
+  "dependencies": {
+    "glob": "7.1.2",
+    "yargs": "10.0.3",
+    "tslib": "^1.9.0"
+  },
+  "bin": {
+    "ngx-extractor": "extractor/ngx-extractor.js"
+  },
+  "main": "bundles/ngx-translate-i18n-polyfill.umd.js",
+  "module": "fesm5/ngx-translate-i18n-polyfill.js",
+  "es2015": "fesm2015/ngx-translate-i18n-polyfill.js",
+  "esm5": "esm5/ngx-translate-i18n-polyfill.js",
+  "esm2015": "esm2015/ngx-translate-i18n-polyfill.js",
+  "fesm5": "fesm5/ngx-translate-i18n-polyfill.js",
+  "fesm2015": "fesm2015/ngx-translate-i18n-polyfill.js",
+  "typings": "ngx-translate-i18n-polyfill.d.ts",
+  "metadata": "ngx-translate-i18n-polyfill.metadata.json",
+  "sideEffects": false
+}
