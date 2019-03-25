@@ -100,7 +100,7 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
                 return false;
             }
             const className = parameterType.text;
-            return className === "I18n" || className === "_i18n";
+            return className === "I18n" || className === "I18NService" || className === "_i18n";
         });
         if (result) {
             return result.name.text;
@@ -152,7 +152,7 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
                 const type = varNode.type;
                 if (type.typeName && type.typeName.escapedText) {
                     const text = type.typeName.escapedText;
-                    return text === "I18n" || text === "_i18n";
+                    return text === "I18n" || text === "I18NService" || text === "_i18n";
                 }
             }
             return false;
