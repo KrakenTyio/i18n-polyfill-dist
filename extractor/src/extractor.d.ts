@@ -32,4 +32,4 @@ export declare class ServiceParser extends AbstractAstParser {
 }
 export declare function getFileContent(messages: {
     [url: string]: (string | I18nDef)[];
-}, sourcePath: string, format?: string, locale?: string): string;
+}, sourcePath: string, format?: string, locale?: string, cleanNotes?: boolean): string;

@@ -63,21 +63,21 @@ function xliff2Write(messages, locale, existingNodes) {
     messages.forEach(message => {
         const unit = new xml.Tag(_UNIT_TAG, { id: message.id });
         const notes = new xml.Tag(_NOTES_TAG);
-        if (message.description || message.meaning) {
+        if (message.description || message.meaning || message.sources.length) {
             if (message.description) {
                 notes.children.push(new xml.CR(8), new xml.Tag(_NOTE_TAG, { category: "description" }, [new xml.Text(message.description)]));
             }
             if (message.meaning) {
                 notes.children.push(new xml.CR(8), new xml.Tag(_NOTE_TAG, { category: "meaning" }, [new xml.Text(message.meaning)]));
             }
+            message.sources.forEach((source) => {
+                notes.children.push(new xml.CR(8), new xml.Tag(_NOTE_TAG, { category: "location" }, [
+                    new xml.Text(`${source.filePath}:${source.startLine}${source.endLine !== source.startLine ? "," + source.endLine : ""}`)
+                ]));
+            });
+            notes.children.push(new xml.CR(6));
+            unit.children.push(new xml.CR(6), notes);
         }
-        message.sources.forEach((source) => {
-            notes.children.push(new xml.CR(8), new xml.Tag(_NOTE_TAG, { category: "location" }, [
-                new xml.Text(`${source.filePath}:${source.startLine}${source.endLine !== source.startLine ? "," + source.endLine : ""}`)
-            ]));
-        });
-        notes.children.push(new xml.CR(6));
-        unit.children.push(new xml.CR(6), notes);
         const segment = new xml.Tag(_SEGMENT_TAG);
         segment.children.push(new xml.CR(8), new xml.Tag(_SOURCE_TAG, {}, visitor.serialize(message.nodes)), new xml.CR(6));
         unit.children.push(new xml.CR(6), segment, new xml.CR(4));

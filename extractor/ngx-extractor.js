@@ -46,10 +46,16 @@ function main(args) {
         default: "en",
         type: "string",
     })
+        .option("cleanNotes", {
+        alias: "n",
+        describe: "Skip and remove notes from output",
+        default: false,
+        type: "boolean",
+    })
         .exitProcess(true)
         .parse(args);
     const messages = extractor_1.getAst(cli.input);
-    const content = extractor_1.getFileContent(messages, cli.outFile, cli.format, cli.locale);
+    const content = extractor_1.getFileContent(messages, cli.outFile, cli.format, cli.locale, cli.cleanNotes);
     if (!fs_1.existsSync(cli.outFile)) {
         console.log(`File "${cli.outFile}" doesn't exist, it will be created`);
     }

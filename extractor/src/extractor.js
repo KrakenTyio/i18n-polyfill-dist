@@ -161,7 +161,7 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
     }
 }
 exports.ServiceParser = ServiceParser;
-function getFileContent(messages, sourcePath, format, locale = "en") {
+function getFileContent(messages, sourcePath, format, locale = "en", cleanNotes = false) {
     let loadFct;
     let writeFct;
     let digest;
@@ -196,6 +196,13 @@ function getFileContent(messages, sourcePath, format, locale = "en") {
     Object.keys(messages).forEach(url => {
         messages[url].forEach(entry => messageBundle.updateFromTemplate(entry, url));
     });
+    if (cleanNotes) {
+        messageBundle.messages.forEach((message) => {
+            message.meaning = '';
+            message.description = '';
+            message.sources = [];
+        });
+    }
     return messageBundle.write(writeFct, digest, xmlMessagesById, createMapper);
 }
 exports.getFileContent = getFileContent;
