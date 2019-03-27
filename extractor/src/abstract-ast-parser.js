@@ -26,14 +26,14 @@ class AbstractAstParser {
                     i18nDef[prop.name.text] = prop.initializer.text;
                 });
                 if (!i18nDef.value) {
-                    throw new Error(`An I18nDef requires a value property on '${this.syntaxKindToName(firstArg.kind)}' for ${firstArg}`);
+                    throw new Error(`An I18nDef requires a value property on '${this.syntaxKindToName(firstArg.kind)}' for ${firstArg}, ${this._sourceFile.fileName}`);
                 }
                 return [i18nDef];
             case ts.SyntaxKind.Identifier:
-                console.log("WARNING: We cannot extract variable values passed to TranslateService (yet)");
+                console.log(`WARNING: We cannot extract variable values passed to TranslateService (yet), ${this._sourceFile.fileName}`);
                 break;
             default:
-                console.log(`SKIP: Unknown argument type: '${this.syntaxKindToName(firstArg.kind)}'`, firstArg);
+                console.log(`SKIP: Unknown argument type: '${this.syntaxKindToName(firstArg.kind)}' ${this._sourceFile.fileName}`, firstArg);
         }
         return [];
     }
