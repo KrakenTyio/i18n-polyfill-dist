@@ -12,6 +12,7 @@ export declare class ServiceParser extends AbstractAstParser {
      * is called by inspecting constructor arguments
      */
     protected _findTranslateServicePropertyName(constructorNode: ts.ConstructorDeclaration | ts.FunctionDeclaration): string;
+    _findPropertyName(node: any): any;
     /**
      * Find class nodes
      */
@@ -24,6 +25,10 @@ export declare class ServiceParser extends AbstractAstParser {
      * Find constructor
      */
     protected _findConstructorNode(node: ts.ClassDeclaration): ts.ConstructorDeclaration;
+    /**
+     * Find properties
+     */
+    protected _findPropertyNode(node: ts.ClassDeclaration): ts.PropertyDeclaration;
     /**
      * Find all calls to TranslateService methods
      */

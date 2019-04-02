@@ -50,6 +50,20 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
                 entries.push(...this._getCallArgStrings(callNode));
             });
         });
+        classNodes.forEach(classNode => {
+            const propertyNode = this._findPropertyNode(classNode);
+            if (!propertyNode) {
+                return;
+            }
+            const propertyName = this._findPropertyName(propertyNode);
+            if (!propertyName) {
+                return;
+            }
+            const callNodes = this._findCallNodes(classNode, propertyName);
+            callNodes.forEach(callNode => {
+                entries.push(...this._getCallArgStrings(callNode));
+            });
+        });
         const functionNodes = this._findFunctionNodes(this._sourceFile);
         functionNodes.forEach(functionNode => {
             const propertyName = this._findTranslateServicePropertyName(functionNode);
@@ -106,6 +120,31 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
             return result.name.text;
         }
     }
+    _findPropertyName(node) {
+        if (!node) {
+            return null;
+        }
+        const result = node.find(parameter => {
+            // Skip if visibility modifier is not present (we want it set as an instance property)
+            /*if (!parameter.modifiers) {
+              return false;
+            }*/
+            // Parameter has no type
+            if (!parameter.type) {
+                return false;
+            }
+            // Make sure className is of the correct type
+            const parameterType = parameter.type.typeName;
+            if (!parameterType) {
+                return false;
+            }
+            const className = parameterType.text;
+            return className === "I18n" || className === "I18NService" || className === "_i18n";
+        });
+        if (result) {
+            return result.name.text;
+        }
+    }
     /**
      * Find class nodes
      */
@@ -123,6 +162,15 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
      */
     _findConstructorNode(node) {
         const constructorNodes = this._findNodes(node, ts.SyntaxKind.Constructor);
+        if (constructorNodes) {
+            return constructorNodes[0];
+        }
+    }
+    /**
+     * Find properties
+     */
+    _findPropertyNode(node) {
+        const constructorNodes = this._findNodes(node, ts.SyntaxKind.PropertyDeclaration);
         if (constructorNodes) {
             return constructorNodes[0];
         }
