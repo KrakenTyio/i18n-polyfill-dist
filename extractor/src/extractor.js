@@ -51,11 +51,11 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
             });
         });
         classNodes.forEach(classNode => {
-            const propertyNode = this._findPropertyNode(classNode);
-            if (!propertyNode) {
+            const propertyNodes = this._findPropertyNode(classNode);
+            if (!propertyNodes) {
                 return;
             }
-            const propertyName = this._findPropertyName(propertyNode);
+            const propertyName = this._findPropertyName(propertyNodes);
             if (!propertyName) {
                 return;
             }
@@ -120,21 +120,17 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
             return result.name.text;
         }
     }
-    _findPropertyName(node) {
-        if (!node) {
+    _findPropertyName(nodes) {
+        if (!nodes) {
             return null;
         }
-        const result = node.find(parameter => {
-            // Skip if visibility modifier is not present (we want it set as an instance property)
-            /*if (!parameter.modifiers) {
-              return false;
-            }*/
+        const result = nodes.find(node => {
             // Parameter has no type
-            if (!parameter.type) {
+            if (!node.type) {
                 return false;
             }
             // Make sure className is of the correct type
-            const parameterType = parameter.type.typeName;
+            const parameterType = node.type.typeName;
             if (!parameterType) {
                 return false;
             }
@@ -170,10 +166,7 @@ class ServiceParser extends abstract_ast_parser_1.AbstractAstParser {
      * Find properties
      */
     _findPropertyNode(node) {
-        const constructorNodes = this._findNodes(node, ts.SyntaxKind.PropertyDeclaration);
-        if (constructorNodes) {
-            return constructorNodes[0];
-        }
+        return this._findNodes(node, ts.SyntaxKind.PropertyDeclaration);
     }
     /**
      * Find all calls to TranslateService methods
